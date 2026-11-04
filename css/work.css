@@ -1,0 +1,437 @@
+/* Left sidebar — persistent project list, fixed, no independent scroll */
+.work-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 40px;
+  gap: 48px;
+  z-index: 60;
+}
+
+.work-sidebar-logo {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.logo-dot {
+  color: #e30613;
+}
+
+.work-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  color: #a3a3a3;
+}
+
+.sidebar-nav-item--active {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.sidebar-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #c9c9c9;
+  flex-shrink: 0;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.sidebar-nav-dot--active {
+  background-color: #3559fe;
+}
+
+/* Labels are collapsed by default — only the dot shows.
+   Revealed on hover, or permanently for whichever project is in view (.is-current). */
+.sidebar-nav-label {
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.25s ease, max-width 0.3s ease;
+}
+
+.sidebar-nav-item:hover .sidebar-nav-label,
+.sidebar-nav-item.is-current .sidebar-nav-label {
+  opacity: 1;
+  max-width: 220px;
+}
+
+.sidebar-nav-item.is-current .sidebar-nav-dot {
+  transform: scale(1.3);
+}
+
+/* Right-hand content column (everything to the right of the sidebar) */
+.work-main {
+  margin-left: 280px;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+/* Floating top nav — About/Work pills + social links, sits above the content only */
+.work-topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  padding: 2rem 7%;
+}
+
+.work-topnav-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pill-btn--active {
+  background-color: #fff;
+  color: #000;
+}
+
+.work-topnav .pill-btn,
+.work-topnav .icon-btn {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  color: #313131;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.work-topnav .pill-btn:hover,
+.work-topnav .icon-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+.work-topnav .pill-btn--active {
+  background: rgba(255, 255, 255, 0.85);
+  color: #000;
+}
+
+
+/* Page wrapper — matches juanmora.co .main-wrapper-work.
+   Uses % instead of vw since vw is relative to the full viewport and would
+   ignore the 280px sidebar offset, causing horizontal overflow.
+   gap/padding use a fixed px value (not %) because a percentage row-gap on a
+   flex column with auto height creates a circular layout dependency that
+   collapses the container's height in some browsers. */
+.main-wrapper-work {
+  width: 86%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 72px;
+  padding-bottom: 72px;
+}
+
+/* Project card — matches juanmora.co .main-project-wrapper */
+.main-project-wrapper {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-bottom: 8vw;
+  padding: 4rem 8px 8px;
+}
+
+.main-project-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+/* 4-column content grid — matches juanmora.co .cont-project-content */
+.cont-project-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+.content-project-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.content-project-info.first {
+  gap: 1rem;
+}
+
+.headline-project {
+  color: #313131;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 110%;
+}
+
+.pill-year {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  color: #96908c;
+  letter-spacing: 0.02rem;
+  border: 1px solid #0000001f;
+  border-radius: 20rem;
+  padding: 0.4rem 0.6rem 0.38rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.pill-live-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  color: #fff;
+  background-color: #313131;
+  border-radius: 20rem;
+  padding: 0.5rem 0.9rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 100%;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.pill-live-link:hover {
+  background-color: #3559fe;
+}
+
+.body-copy {
+  color: #96908c;
+  letter-spacing: 0.03rem;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 140%;
+}
+
+.body-copy.title {
+  color: #706b67;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.pill-services-cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+}
+
+.pill-service {
+  color: #96908c;
+  text-transform: none;
+  background-color: #fff;
+  border: 1px solid #3559fe29;
+  border-radius: 0.3rem;
+  padding: 0.4rem 0.7rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  line-height: 100%;
+  white-space: nowrap;
+}
+
+/* Project images */
+.cont-project-imgs {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.img-hero img {
+  width: 100%;
+  aspect-ratio: 1041 / 553;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.img-row {
+  display: grid;
+  gap: 16px;
+}
+
+.img-row--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.img-row--4 img {
+  width: 100%;
+  aspect-ratio: 245 / 219;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.img-row--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.img-row--2 img {
+  width: 100%;
+  aspect-ratio: 506 / 452;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+/* Masonry layout: two small images + wide image stacked on the left, tall image on the right.
+   The tall image has no aspect-ratio of its own — grid stretch makes it match the left
+   column's natural height, so it stays correct at any viewport width. */
+.img-masonry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.img-masonry-left {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.img-masonry-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.img-masonry-top img {
+  width: 100%;
+  aspect-ratio: 248 / 219;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.img-masonry-wide img {
+  width: 100%;
+  aspect-ratio: 505 / 452;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.img-masonry-tall {
+  height: 100%;
+}
+
+.img-masonry-tall img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+/* Responsive — mirrors juanmora.co breakpoints */
+@media (max-width: 991px) {
+  .work-sidebar {
+    position: relative;
+    width: 100%;
+    max-height: none;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .work-sidebar-nav {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .work-main {
+    margin-left: 0;
+  }
+
+  .work-topnav {
+    padding: 1.5rem 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .cont-project-content {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .content-project-info.first {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .main-wrapper-work {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .cont-project-content {
+    grid-template-columns: 1fr;
+  }
+
+  .content-project-info.first {
+    grid-column: auto;
+  }
+
+  .img-row--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .img-row--2 {
+    grid-template-columns: 1fr;
+  }
+
+  .img-masonry {
+    grid-template-columns: 1fr;
+  }
+
+  .img-masonry-tall {
+    height: auto;
+  }
+
+  .img-masonry-tall img {
+    aspect-ratio: 503 / 452;
+  }
+}
